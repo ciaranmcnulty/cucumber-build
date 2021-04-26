@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Build and push docker image
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build the image
+        run: make build
+
+      - name: Log in to GHCR
+        run: echo ${{secrets.GITHUB_TOKEN}} | docker login https://ghcr.io -u $GITHUB_ACTOR --password-stdin
